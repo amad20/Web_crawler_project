@@ -24,11 +24,10 @@ public class project6 {
                 titles.add(title);
                 String text = doc.body().text();
                 for (Element link : linksFromPage) {
-                    if(titles.size() <= MAX_PAGES) {
+                    if (titles.size() <= MAX_PAGES) {
                         Thread.sleep(1000);//sleep for a second
                         getLinks(link.attr("abs:href"));
-                    }
-                    else {
+                    } else {
                         System.out.println("URL couldnt visit");
                         System.out.println(startURL + ", " + urlVisited.size());
                     }
@@ -36,17 +35,66 @@ public class project6 {
             } catch (IOException e) {
                 e.printStackTrace();
 
-            }
-           catch (InterruptedException e) {
+            } catch (InterruptedException e) {
 
-               e.printStackTrace();
+                e.printStackTrace();
 
-           }
-            catch (Exception e) {
+            } catch (Exception e) {
 
                 e.printStackTrace();
             }
         }
 
     }
+
+    //method to print all titles
+    public void PrintAllTitles() {
+
+        for (String t : titles) {
+            System.out.println(t);
+        }
+    }
+
+    //method to print word and count
+    public void PrintAllWordsAndCount() {
+
+        for (String key : map.keySet()) {
+
+            System.out.println(key + " : " + map.get(key));
+        }
+    }
+
+    private void CountWords(String text) {
+
+        String[] lines = text.split(" ");
+
+        for (String word : lines) {
+
+            if (map.containsKey(word)) {
+                int val = map.get(word);
+                val += 1;
+                map.remove(word);
+                map.put(word, val);
+            } else {
+                map.put(word, 1);
+            }
+
+        }
+    }
+
+    public static class driver {
+
+        public static void main(String[] args) {
+
+            project6 c = new project6();
+            c.getLinks("https://en.wikipedia.org/wiki/Science");
+            System.out.println("*******************************Printing all titles*******************************");
+            c.PrintAllTitles();
+            System.out.println("*******************************Printing all Words*******************************");
+            c.PrintAllWordsAndCount();
+        }
+
+    }
 }
+
+
